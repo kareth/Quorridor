@@ -1,0 +1,23 @@
+cmake_minimum_required (VERSION 2.6)
+
+project (CORRIDOR)
+
+# Allow absolute paths
+SET(BASEPATH "${CMAKE_SOURCE_DIR}")
+SET(CMAKE_CXX_FLAGS     "-std=c++11 -stdlib=libc++")
+INCLUDE_DIRECTORIES("${BASEPATH}")
+
+add_subdirectory(client)
+add_subdirectory(game)
+add_subdirectory(server)
+add_subdirectory(visualization)
+add_subdirectory(control)
+
+add_executable(main main.cpp)
+target_link_libraries(main
+  client
+  control
+  game
+  server
+  visualization
+)
