@@ -12,13 +12,13 @@ Client::Client(const visualization::Display& display,
 }
 
 void Client::Start() {
-  game::Board b;
-  game::Manager manager(&b);
+  game::Manager manager(9, 1);
   while(1) {
-    display_.ShowBoard(b);
+    display_.ShowBoard(manager.board());
+    display_.ShowWalls(manager.walls(0));
     game::Move move;
     input_.GetMove(&move);
-    while (!manager.DoMove(0, move)) {
+    while (!manager.DoMove(1, move)) {
       printf("Invalid move.\n");
       input_.GetMove(&move);
     }

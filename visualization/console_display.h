@@ -13,8 +13,12 @@ class ConsoleDisplay : public Display {
   ConsoleDisplay();
 
   void ShowBoard(const game::Board& board) const;
+  void ShowWalls(int count) const;
 
  private:
+  void PrintColoredField(int who) const;
+  void SetColor(int color) const;
+  void ClearColor() const;
 
 };
 

@@ -10,6 +10,7 @@ class Display {
   ~Display() {}
 
   virtual void ShowBoard(const game::Board& board) const = 0;
+  virtual void ShowWalls(int count) const = 0;
 
  private:
 
