@@ -10,7 +10,10 @@ enum CommandType {
   kMoveRequest,
   kCorrectMove,
   kBoardInfo,
-  kAnotherPlayerTurn
+  kAnotherPlayerTurn,
+  kGameFailed,
+  kWalls,
+  WaitingForOpponents
 };
 
 struct Command {

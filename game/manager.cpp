@@ -11,7 +11,11 @@ Manager::Manager(int size, int players) : board_(size) {
 
   for (int i = 1; i <= players; i++) {
     Player player(i);
-    Field position = Field(0, i);
+    Field position;
+    if (i == 1) position = Field(0, 4);
+    else if (i == 2) position = Field(8, 4);
+    else if (i == 3) position = Field(4, 0);
+    else if (i == 4) position = Field(4, 8);
     board_.PlaceMan(player, position);
     positions_.push_back(position);
     walls_.push_back(6);
@@ -58,4 +62,14 @@ int Manager::PlaceWall(const Player& player, const Field& from, const Field& to)
   return 1;
 }
 
+int Manager::getWinner() const {
+  for (int id = 1; id <= positions_.size(); id++) {
+    if (id == 1 && positions_[id].x == 8) return id;
+    else if (id == 2 && positions_[id].x == 0) return id;
+    else if (id == 3 && positions_[id].y == 8) return id;
+    else if (id == 4 && positions_[id].y == 0) return id;
+    return -1;
+  }
 }
+
+}  // namespace game

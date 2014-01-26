@@ -16,7 +16,7 @@ class Manager {
 
   const Board& board() const { return board_; }
   int walls(int player) const { return walls_[player]; }
-  int getWinner() const { return 1; }
+  int getWinner() const;
 
  private:
   int MoveMan(const Player& player, const Field& from, const Field& to);

@@ -3,6 +3,7 @@
 #include "server/game_room.h"
 #include <set>
 #include <memory>
+#include <unistd.h>
 
 namespace server {
 
@@ -51,9 +52,12 @@ void Lobby::StartGame() {
 }
 
 void Lobby::GameFinished(std::shared_ptr<GameRoom> room) {
+  LOG_INFO(logger_, "Stopping game...");
+  sleep(10);
   for (auto c : room->connections())
     Stop(c);
   rooms_.erase(room);
+  LOG_INFO(logger_, "Game stopped");
 }
 
 }  // namespace server

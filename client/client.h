@@ -3,12 +3,11 @@
 
 #include <memory>
 
-#include "game/board.h"
-#include "visualization/display.h"
-#include "control/input.h"
 #include "server/socket.h"
-
 #include "logger/logger.h"
+#include "game/board.h"
+#include "control/input.h"
+#include "visualization/display.h"
 
 namespace client {
 
@@ -25,16 +24,24 @@ class Client {
 
   void InitializeSocket();
 
+  // Client application methods
   const visualization::Display& display_;
   const control::Input& input_;
 
+  // Socket
   int socket_fd_;
-  char buffer_[server::Socket::kMaxBufferSize];
-  int player_id_;
   std::unique_ptr<server::Socket> socket_;
 
+  // Reading buffer
+  char buffer_[server::Socket::kMaxBufferSize];
+
+  // Assigned id by game
+  int player_id_;
+
+  // Params
   std::string address_;
   std::string port_;
+
   static const logger::Logger logger_;
 };
 

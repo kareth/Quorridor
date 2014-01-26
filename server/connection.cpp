@@ -16,20 +16,30 @@ namespace server {
 const logger::Logger Connection::logger_("server.connection");
 
 Connection::Connection(std::unique_ptr<Socket> socket, Lobby* lobby)
-  : socket_(std::move(socket)), lobby_(lobby) {
+  : socket_(std::move(socket)), lobby_(lobby), room_(nullptr), up_(0) {
 }
 
 void* Connection::StartRoutine() {
-  LOG_DEBUG(logger_, "Starting connection")
+  LOG_DEBUG(logger_, "Starting connection");
+  up_ = true;
+
+  SendCommand(protocol::WaitingForOpponents);
+
+  char buffer[Socket::kMaxBufferSize];
 
   while (true) {
-    char buffer[Socket::kMaxBufferSize];
+    int size;
+    try {
+      size = socket_->Read(buffer, Socket::kMaxBufferSize);
+    } catch (...) {
+      ConnectionStopped();
+      break;
+    }
 
-      int size = socket_->Read(buffer, Socket::kMaxBufferSize);
-
-    // TODO kareth
-    if (size == 0)
-      return nullptr;
+    if (size == 0) {
+      ConnectionStopped();
+      break;
+    }
 
     if (waiting_ == true) {
       memcpy(waiting_object_, buffer, size);
@@ -44,11 +54,13 @@ void* Connection::StartRoutine() {
 }
 
 void Connection::SendCommand(const protocol::Command& command) {
-  socket_->Write(&command, sizeof(command));
+  if (up_)
+    socket_->Write(&command, sizeof(command));
 }
 
 void Connection::SendInteger(int data) {
-  socket_->Write(&data, sizeof(data));
+  if (up_)
+    socket_->Write(&data, sizeof(data));
 }
 
 void Connection::AssignRoom(std::shared_ptr<GameRoom> room) {
@@ -59,13 +71,23 @@ void Connection::Stop() {
   socket_->Close();
 }
 
+void Connection::ConnectionStopped() {
+  up_ = false;
+  LOG_INFO(logger_, "Client disconnected");
+  if (room_) {
+    room_->Unlock();
+    room_->StopGame();
+  }
+}
+
 void Connection::WaitFor(char* data) {
   waiting_ = true;
   waiting_object_ = data;
 }
 
 void Connection::SendBoard(const protocol::Board& board) {
-  socket_->Write(&board, sizeof(struct protocol::Board));
+  if (up_)
+    socket_->Write(&board, sizeof(struct protocol::Board));
 }
 
 }  // namespace server

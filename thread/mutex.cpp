@@ -2,7 +2,7 @@
 
 #include <pthread.h>
 
-using thread::Mutex;
+namespace thread {
 
 Mutex::Mutex() {
   pthread_mutexattr_t attr;
@@ -21,3 +21,5 @@ void Mutex::Lock() {
 void Mutex::Unlock() {
   pthread_mutex_unlock(&mutex_);
 }
+
+} // namespace thread

@@ -89,6 +89,12 @@ void ConsoleDisplay::ShowMessageFor(const protocol::Command& command) const {
     case protocol::kInvalidMove:
       printf("Invalid move");
       break;
+    case protocol::kGameFailed:
+      printf("Game failed. One of players disconnected.");
+      break;
+    case protocol::WaitingForOpponents:
+      printf("You have been added to lobby. Waiting for other players.");
+      break;
     case protocol::kAnotherPlayerTurn:
       printf("Waiting for another player turn...");
       break;

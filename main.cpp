@@ -10,8 +10,20 @@
 std::string address = "127.0.0.1";
 std::string port = "1239";
 
-int main() {
+int main(int argc, char **argv) {
   std::string command = "";
+  if (argc != 2 && argc != 4) {
+    printf("\nUsage: \n");
+    printf("%s client [address] [port] (defaults to localhost:1239)\n", argv[0]);
+    printf("%s server [address] [port]\n\n", argv[0]);
+    return 0;
+  } else if (argc == 2){
+    command = argv[1];
+  } else if (argc == 4){
+    command = argv[1];
+    address = argv[2];
+    port = argv[3];
+  }
   while (command != "c" && command != "s")
     std::cin >> command;
 

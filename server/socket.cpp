@@ -37,7 +37,7 @@ std::size_t Socket::Read(void* array, std::size_t max_bytes_count) {
 }
 
 std::size_t Socket::Read(void* array, std::size_t max_bytes_count, int tv_sec, int tv_usec) {
-  // TODO(adam): tests
+  // TODO(kareth): tests
   fd_set masterfds, readfds;
   FD_ZERO(&masterfds);
   FD_SET(sock_fd_, &masterfds);

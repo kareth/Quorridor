@@ -31,6 +31,7 @@ class Connection : public thread::ThreadInterface, public std::enable_shared_fro
 
  private:
   virtual void* StartRoutine();
+  void ConnectionStopped();
 
   std::unique_ptr<Socket> socket_;
   Lobby* lobby_;
@@ -38,6 +39,8 @@ class Connection : public thread::ThreadInterface, public std::enable_shared_fro
 
   int waiting_;
   char* waiting_object_;
+
+  int up_;
 
   static const logger::Logger logger_;
 };

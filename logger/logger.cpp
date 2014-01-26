@@ -50,6 +50,8 @@ void Logger::log(kMessageLevel message_level, const std::string& msg,
     pthread_t thread_id, int line_number,
     const std::string& file_name) const {
 
+  if (message_level == DEBUG) return;
+
   const bool log_file_line =  false;
 
   mutex_.Lock();
