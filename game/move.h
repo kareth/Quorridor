@@ -6,17 +6,17 @@
 namespace game {
 
 enum MoveType {
-  kWall = 0,
+  kWall = 1,
   kMove
 };
 
 struct Move {
-  MoveType type;
+  int type;
   Field from;
   Field to;
 
   Move() {}
-  Move(MoveType type, const Field& from, const Field& to)
+  Move(int type, const Field& from, const Field& to)
     : type(type), from(from), to(to) {}
 };
 

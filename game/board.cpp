@@ -9,6 +9,35 @@ Board::Board(int size) : size_(size), blocked_(),
   fields_(size, std::vector<int>(size, 0)) {
 }
 
+Board::Board(const protocol::Board& serialized_board) :
+  size_(9), blocked_(), fields_(9, std::vector<int>(9, 0)) {
+  for (int x = 0; x < 9; x++)
+    for (int y = 0; y < 9; y++)
+      fields_[x][y] = serialized_board.fields[x][y];
+
+  for (int x = 0; x < 81; x++)
+    for (int y = 0; y < 81; y++)
+      if (serialized_board.blocked[x][y] == 1)
+        Block(Field(x/9, x%9), Field(y/9, y%9));
+}
+
+protocol::Board Board::Serialize() const {
+  protocol::Board board;
+  for (int x = 0; x < 9; x++)
+    for (int y = 0; y < 9; y++)
+      board.fields[x][y] = fields_[x][y];
+
+  for (int x = 0; x < 81; x++) {
+    for (int y = 0; y < 81; y++) {
+      if (IsBlocked(Field(x/9, x%9), Field(y/9, y%9)))
+        board.blocked[x][y] = 1;
+      else
+        board.blocked[x][y] = 0;
+    }
+  }
+  return board;
+}
+
 void Board::PlaceMan(const Player& player, const Field& position) {
   fields_[position.x][position.y] = player.id;
 }

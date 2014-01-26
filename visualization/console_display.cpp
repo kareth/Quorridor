@@ -77,4 +77,40 @@ void ConsoleDisplay::ShowWalls(int count) const {
   printf("Remaining walls: %d\n", count);
 }
 
+void ConsoleDisplay::ShowMessageFor(const protocol::Command& command) const {
+  printf("Server: ");
+  switch(command.type) {
+    case protocol::kGameStarted:
+      printf("Game started");
+      break;
+    case protocol::kCorrectMove:
+      printf("Correct move");
+      break;
+    case protocol::kInvalidMove:
+      printf("Invalid move");
+      break;
+    case protocol::kAnotherPlayerTurn:
+      printf("Waiting for another player turn...");
+      break;
+  }
+  printf("\n");
+}
+
+void ConsoleDisplay::ShowPlayerInfo(int id) const {
+  SetColor(id);
+  printf("Your id: %d\n", id);
+  ClearColor();
+  printf("\n");
+}
+
+void ConsoleDisplay::ShowWinner(int winner, int me) const {
+  if (winner == me) {
+    printf("\033[0;32mYou Won!\033[0m\n");
+  } else {
+    printf("\033[0;31mYou have lost. Player %d won. \033[0m\n", winner);
+  }
+  printf("\n");
+}
+
+
 }  // namespace visualization

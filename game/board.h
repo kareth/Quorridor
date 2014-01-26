@@ -5,17 +5,21 @@
 #include <map>
 #include "game/field.h"
 #include "game/player.h"
+#include "protocol/board.h"
 
 namespace game {
 
 class Board {
  public:
   explicit Board(int size);
+  explicit Board(const protocol::Board& serialized_board);
 
   int PlaceWall(const Field& from, const Field& to);
   int MoveMan(const Field& from, const Field& to);
 
   void PlaceMan(const Player& player, const Field& position);
+
+  protocol::Board Serialize() const;
 
   int size() const { return size_; }
   bool IsBlocked(const Field& from, const Field& to) const;

@@ -5,6 +5,7 @@
 
 #include "game/board.h"
 #include "visualization/display.h"
+#include "protocol/command.h"
 
 namespace visualization {
 
@@ -14,6 +15,9 @@ class ConsoleDisplay : public Display {
 
   void ShowBoard(const game::Board& board) const;
   void ShowWalls(int count) const;
+  void ShowMessageFor(const protocol::Command& command) const;
+  void ShowPlayerInfo(int id) const;
+  void ShowWinner(int winner, int me) const;
 
  private:
   void PrintColoredField(int who) const;

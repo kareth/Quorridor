@@ -9,7 +9,9 @@ INCLUDE_DIRECTORIES("${BASEPATH}")
 
 add_subdirectory(client)
 add_subdirectory(game)
+add_subdirectory(logger)
 add_subdirectory(server)
+add_subdirectory(thread)
 add_subdirectory(visualization)
 add_subdirectory(control)
 
@@ -18,6 +20,8 @@ target_link_libraries(main
   client
   control
   game
+  logger
   server
+  thread
   visualization
 )
